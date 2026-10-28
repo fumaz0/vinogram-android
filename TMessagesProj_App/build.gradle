@@ -131,7 +131,11 @@ android {
         }
         afat {
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+                if (project.hasProperty('vinogramAbi')) {
+                    abiFilters.addAll(project.property('vinogramAbi').toString().split(',').toList())
+                } else {
+                    abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+                }
             }
             sourceSets.debug {
                 manifest.srcFile '../TMessagesProj/config/debug/AndroidManifest_SDK23.xml'
