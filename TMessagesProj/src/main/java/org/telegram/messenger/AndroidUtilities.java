@@ -6667,7 +6667,7 @@ public class AndroidUtilities {
                     }
                     break;
             }
-            return formatString("TelegramVersion", R.string.TelegramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi));
+            return "vinogram v" + pInfo.versionName;
         } catch (Exception e) {
             FileLog.e(e);
         }

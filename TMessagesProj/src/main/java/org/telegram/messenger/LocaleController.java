@@ -1259,6 +1259,7 @@ public class LocaleController {
                     name = null;
                 }
                 if (name != null && name.equals("string") && value != null && attrName != null && value.length() != 0 && attrName.length() != 0) {
+                    value = rebrandString(value);
                     stringMap.put(attrName, value);
                     name = null;
                     value = null;
@@ -1287,6 +1288,16 @@ public class LocaleController {
             }
         }
         return new HashMap<>();
+    }
+
+    private static String rebrandString(String value) {
+        if (value == null || !value.contains("Telegram")) {
+            return value;
+        }
+        final String PLACEHOLDER = "\u0001TG\u0001";
+        return value.replace("TelegramTips", PLACEHOLDER)
+                    .replace("Telegram", "vinogram")
+                    .replace(PLACEHOLDER, "TelegramTips");
     }
 
     public int applyLanguage(LocaleInfo localeInfo, boolean override, boolean init, final int currentAccount) {
