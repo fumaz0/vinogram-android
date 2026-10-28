@@ -1061,7 +1061,7 @@ public class MessagePreviewView extends FrameLayout {
                 sendersNameButton.setOnClickListener(view -> {
                     if (!canHideSenderName) {
                         BulletinFactory.of(MessagePreviewView.this, resourcesProvider)
-                            .createSimpleBulletin(R.raw.star_premium_2, replaceSingleTag("Subscribe to **Vinogram Premium** to forward formatted messages without the sender’s name.", () -> {
+                            .createSimpleBulletin(R.raw.star_premium_2, replaceSingleTag("Subscribe to **vinogram Premium** to forward formatted messages without the sender’s name.", () -> {
                                 dismiss(false);
                                 AndroidUtilities.runOnUIThread(() -> {
                                     if (!AndroidUtilities.isContextSafe(context)) return;

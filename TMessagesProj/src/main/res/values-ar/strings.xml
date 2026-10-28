@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Vinogram</string>
-    <string name="AppNameBeta">Vinogram Beta</string>
+    <string name="AppName">vinogram</string>
+    <string name="AppNameBeta">vinogram Beta</string>
     <string name="LanguageName">العربية</string>
     <string name="English">الإنجليزية</string>
     <string name="LanguageNameInEnglish">Arabic</string>
