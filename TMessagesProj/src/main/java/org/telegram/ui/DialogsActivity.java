@@ -58,6 +58,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ImageSpan;
 import android.util.LongSparseArray;
 import android.util.Property;
@@ -3518,6 +3519,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 logoDrawable.setBounds(0, 0, logoSize, logoSize);
                 SpannableStringBuilder ssb = new SpannableStringBuilder("  " + getString(R.string.AppName));
                 ssb.setSpan(new ImageSpan(logoDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new AbsoluteSizeSpan(dp(24)), 2, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 actionBar.setTitle(ssb, statusDrawable);
                 updateStatus(UserConfig.getInstance(currentAccount).getCurrentUser(), false);
             }
