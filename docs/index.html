@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vinogram — Telegram client for Android</title>
+<meta name="description" content="vinogram is an open-source Telegram client for Android with a purple accent. Download the APK, read the source, join the channel.">
+<meta name="theme-color" content="#0d0b14">
+<meta property="og:title" content="vinogram — Telegram client for Android">
+<meta property="og:description" content="Open-source Telegram client for Android with a purple accent.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  :root {
+    --bg: #0d0b14;
+    --bg-soft: rgba(255, 255, 255, .045);
+    --line: rgba(255, 255, 255, .09);
+    --text: #ece9f6;
+    --muted: #a49bbd;
+    --accent: #996cfa;
+    --accent-dark: #793df7;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 620px at 50% -260px, rgba(153, 108, 250, .30), transparent 70%),
+      radial-gradient(700px 500px at 100% 10%, rgba(121, 61, 247, .16), transparent 70%),
+      var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { width: 100%; max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(13, 11, 20, .72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  header .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; letter-spacing: -.2px; }
+  .brand svg { width: 26px; height: 26px; display: block; }
+  header nav { margin-left: auto; display: flex; align-items: center; gap: 22px; font-size: 14px; color: var(--muted); }
+  header nav a:hover { color: var(--text); }
+  .lang {
+    border: 1px solid var(--line); background: var(--bg-soft); color: var(--text);
+    font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    padding: 6px 11px; border-radius: 9px;
+  }
+  .lang:hover { border-color: rgba(255, 255, 255, .22); }
+  @media (max-width: 640px) { header nav a { display: none; } }
+
+  .hero { padding: 74px 0 30px; text-align: center; }
+  .hero .logo {
+    width: 148px; height: 148px; display: block; margin: 0 auto 26px;
+    filter: drop-shadow(0 22px 48px rgba(121, 61, 247, .45));
+  }
+  h1 {
+    margin: 0; font-size: clamp(40px, 9vw, 64px); line-height: 1.05;
+    letter-spacing: -2px; font-weight: 800;
+  }
+  .lead {
+    margin: 18px auto 0; max-width: 620px; font-size: clamp(16px, 2.4vw, 19px);
+    color: var(--muted);
+  }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 32px 0 0; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 13px 22px; border-radius: 13px; font-weight: 650; font-size: 15px;
+    border: 1px solid var(--line); background: var(--bg-soft); color: var(--text);
+    transition: transform .16s ease, border-color .16s ease, background .16s ease;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, .2); }
+  .btn.primary {
+    border: 0; color: #fff;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 12px 30px rgba(121, 61, 247, .38);
+  }
+  .btn.primary:hover { box-shadow: 0 16px 36px rgba(121, 61, 247, .5); }
+  .meta { margin: 18px 0 0; font-size: 13.5px; color: var(--muted); }
+
+  section { padding: 46px 0; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--muted); margin: 0 0 20px; font-weight: 700; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(232px, 1fr)); }
+  .card {
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 18px; padding: 20px;
+  }
+  .card h3 { margin: 0 0 7px; font-size: 16.5px; font-weight: 700; }
+  .card p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .card .dot {
+    width: 9px; height: 9px; border-radius: 50%; margin-bottom: 14px; display: block;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 0 14px rgba(121, 61, 247, .8);
+  }
+
+  ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; display: grid; gap: 10px; }
+  ol.steps li {
+    counter-increment: step; position: relative; padding: 15px 18px 15px 56px;
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 14px;
+    font-size: 14.5px; color: var(--muted);
+  }
+  ol.steps li::before {
+    content: counter(step); position: absolute; left: 16px; top: 13px;
+    width: 26px; height: 26px; border-radius: 9px; display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; color: #fff;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  }
+  ol.steps b { color: var(--text); font-weight: 650; }
+
+  .links { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .link {
+    display: flex; align-items: center; gap: 13px;
+    padding: 16px 18px; border-radius: 15px;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    transition: border-color .16s ease, transform .16s ease;
+  }
+  .link:hover { border-color: rgba(153, 108, 250, .55); transform: translateY(-1px); }
+  .link .name { font-weight: 650; font-size: 15px; }
+  .link .val { font-size: 13px; color: var(--muted); }
+  .link svg { width: 30px; height: 30px; flex: 0 0 auto; opacity: .9; }
+
+  footer {
+    margin-top: 20px; padding: 30px 0 46px;
+    border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 13px; text-align: center;
+  }
+  footer a { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 108 108" aria-hidden="true">
+        <defs>
+          <linearGradient id="gradS" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#996cfa"/>
+            <stop offset="1" stop-color="#793df7"/>
+          </linearGradient>
+        </defs>
+        <circle cx="54" cy="54" r="54" fill="url(#gradS)"/>
+        <g transform="translate(54 54) scale(0.54) translate(-160 -160)">
+          <path fill="#fff" d="M 116.84 151.49 C 117.29 150.52 118.11 149.62 118.96 148.93 C 119.81 148.24 120.9 147.8 121.92 147.35 C 122.95 146.91 124.04 146.64 125.1 146.27 C 126.17 145.92 127.23 145.56 128.29 145.21 C 129.35 144.86 130.42 144.5 131.48 144.15 C 132.55 143.8 133.61 143.45 134.67 143.09 C 135.73 142.75 136.8 142.4 137.87 142.05 C 138.93 141.7 139.99 141.34 141.06 141 C 142.12 140.65 143.19 140.31 144.25 139.95 C 145.31 139.6 146.37 139.23 147.43 138.88 C 148.5 138.52 149.57 138.17 150.63 137.82 C 151.69 137.47 152.75 137.11 153.81 136.75 C 154.87 136.39 155.92 136.01 156.98 135.65 C 158.04 135.29 159.1 134.92 160.17 134.57 C 161.23 134.22 162.3 133.88 163.37 133.54 C 164.43 133.19 165.5 132.83 166.56 132.47 C 167.62 132.11 168.68 131.75 169.74 131.39 C 170.8 131.04 171.87 130.69 172.93 130.34 C 173.99 129.98 175.05 129.62 176.12 129.26 C 177.18 128.91 178.24 128.56 179.3 128.21 C 180.37 127.85 181.41 127.44 182.49 127.13 C 183.56 126.82 184.65 126.44 185.75 126.35 C 186.85 126.25 188.04 126.22 189.08 126.53 C 190.12 126.83 191.19 127.43 191.98 128.17 C 192.77 128.9 193.44 129.92 193.83 130.93 C 194.22 131.94 194.33 133.14 194.32 134.24 C 194.3 135.34 194.02 136.46 193.75 137.54 C 193.47 138.62 193.04 139.67 192.68 140.73 C 192.32 141.79 191.97 142.85 191.62 143.92 C 191.27 144.98 190.91 146.05 190.56 147.11 C 190.21 148.17 189.86 149.23 189.5 150.3 C 189.15 151.36 188.79 152.42 188.43 153.49 C 188.06 154.54 187.69 155.6 187.33 156.66 C 186.98 157.72 186.64 158.79 186.29 159.86 C 185.95 160.92 185.61 161.99 185.26 163.05 C 184.91 164.12 184.54 165.18 184.18 166.24 C 183.82 167.3 183.45 168.36 183.09 169.42 C 182.73 170.48 182.37 171.54 182.02 172.6 C 181.67 173.66 181.32 174.73 180.97 175.8 C 180.62 176.86 180.26 177.92 179.9 178.98 C 179.55 180.04 179.22 181.12 178.86 182.18 C 178.51 183.24 178.15 184.3 177.79 185.36 C 177.43 186.42 177.08 187.49 176.71 188.55 C 176.35 189.61 175.98 190.66 175.63 191.73 C 175.28 192.79 174.95 193.86 174.6 194.93 C 174.25 195.99 173.95 197.08 173.53 198.11 C 173.13 199.15 172.77 200.26 172.15 201.16 C 171.52 202.06 170.71 202.95 169.79 203.52 C 168.88 204.09 167.72 204.47 166.64 204.58 C 165.56 204.69 164.35 204.52 163.33 204.15 C 162.3 203.79 161.29 203.15 160.49 202.41 C 159.69 201.66 159.11 200.65 158.53 199.69 C 157.97 198.73 157.57 197.67 157.06 196.67 C 156.56 195.67 156.02 194.68 155.5 193.7 C 154.96 192.71 154.43 191.72 153.88 190.75 C 153.33 189.77 152.77 188.8 152.18 187.85 C 151.59 186.89 150.99 185.95 150.36 185.02 C 149.74 184.09 149.1 183.16 148.44 182.26 C 147.78 181.36 147.11 180.46 146.39 179.6 C 145.68 178.73 144.94 177.89 144.16 177.09 C 143.38 176.29 142.55 175.53 141.7 174.8 C 140.85 174.07 139.98 173.37 139.08 172.7 C 138.19 172.02 137.27 171.37 136.34 170.75 C 135.42 170.11 134.47 169.51 133.52 168.92 C 132.58 168.33 131.61 167.76 130.63 167.2 C 129.67 166.64 128.68 166.11 127.7 165.58 C 126.71 165.04 125.73 164.51 124.73 164 C 123.73 163.48 122.68 163.07 121.71 162.52 C 120.73 161.97 119.68 161.47 118.88 160.73 C 118.09 159.97 117.37 159.03 116.93 158.03 C 116.48 157.03 116.24 155.85 116.22 154.76 C 116.21 153.67 116.38 152.46 116.84 151.49 Z"/>
+        </g>
+      </svg>
+      vinogram
+    </a>
+    <nav>
+      <a href="#features" data-en="Features" data-ru="Возможности">Features</a>
+      <a href="#install" data-en="Install" data-ru="Установка">Install</a>
+      <a href="#links" data-en="Links" data-ru="Ссылки">Links</a>
+      <a href="https://github.com/fumaz0/vinogram-android">GitHub</a>
+      <button class="lang" id="lang" type="button">RU</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <svg class="logo" viewBox="0 0 108 108" aria-label="vinogram">
+      <defs>
+        <linearGradient id="gradL" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#996cfa"/>
+          <stop offset="1" stop-color="#793df7"/>
+        </linearGradient>
+      </defs>
+      <circle cx="54" cy="54" r="54" fill="url(#gradL)"/>
+      <g transform="translate(54 54) scale(0.54) translate(-160 -160)">
+        <path fill="#fff" d="M 116.84 151.49 C 117.29 150.52 118.11 149.62 118.96 148.93 C 119.81 148.24 120.9 147.8 121.92 147.35 C 122.95 146.91 124.04 146.64 125.1 146.27 C 126.17 145.92 127.23 145.56 128.29 145.21 C 129.35 144.86 130.42 144.5 131.48 144.15 C 132.55 143.8 133.61 143.45 134.67 143.09 C 135.73 142.75 136.8 142.4 137.87 142.05 C 138.93 141.7 139.99 141.34 141.06 141 C 142.12 140.65 143.19 140.31 144.25 139.95 C 145.31 139.6 146.37 139.23 147.43 138.88 C 148.5 138.52 149.57 138.17 150.63 137.82 C 151.69 137.47 152.75 137.11 153.81 136.75 C 154.87 136.39 155.92 136.01 156.98 135.65 C 158.04 135.29 159.1 134.92 160.17 134.57 C 161.23 134.22 162.3 133.88 163.37 133.54 C 164.43 133.19 165.5 132.83 166.56 132.47 C 167.62 132.11 168.68 131.75 169.74 131.39 C 170.8 131.04 171.87 130.69 172.93 130.34 C 173.99 129.98 175.05 129.62 176.12 129.26 C 177.18 128.91 178.24 128.56 179.3 128.21 C 180.37 127.85 181.41 127.44 182.49 127.13 C 183.56 126.82 184.65 126.44 185.75 126.35 C 186.85 126.25 188.04 126.22 189.08 126.53 C 190.12 126.83 191.19 127.43 191.98 128.17 C 192.77 128.9 193.44 129.92 193.83 130.93 C 194.22 131.94 194.33 133.14 194.32 134.24 C 194.3 135.34 194.02 136.46 193.75 137.54 C 193.47 138.62 193.04 139.67 192.68 140.73 C 192.32 141.79 191.97 142.85 191.62 143.92 C 191.27 144.98 190.91 146.05 190.56 147.11 C 190.21 148.17 189.86 149.23 189.5 150.3 C 189.15 151.36 188.79 152.42 188.43 153.49 C 188.06 154.54 187.69 155.6 187.33 156.66 C 186.98 157.72 186.64 158.79 186.29 159.86 C 185.95 160.92 185.61 161.99 185.26 163.05 C 184.91 164.12 184.54 165.18 184.18 166.24 C 183.82 167.3 183.45 168.36 183.09 169.42 C 182.73 170.48 182.37 171.54 182.02 172.6 C 181.67 173.66 181.32 174.73 180.97 175.8 C 180.62 176.86 180.26 177.92 179.9 178.98 C 179.55 180.04 179.22 181.12 178.86 182.18 C 178.51 183.24 178.15 184.3 177.79 185.36 C 177.43 186.42 177.08 187.49 176.71 188.55 C 176.35 189.61 175.98 190.66 175.63 191.73 C 175.28 192.79 174.95 193.86 174.6 194.93 C 174.25 195.99 173.95 197.08 173.53 198.11 C 173.13 199.15 172.77 200.26 172.15 201.16 C 171.52 202.06 170.71 202.95 169.79 203.52 C 168.88 204.09 167.72 204.47 166.64 204.58 C 165.56 204.69 164.35 204.52 163.33 204.15 C 162.3 203.79 161.29 203.15 160.49 202.41 C 159.69 201.66 159.11 200.65 158.53 199.69 C 157.97 198.73 157.57 197.67 157.06 196.67 C 156.56 195.67 156.02 194.68 155.5 193.7 C 154.96 192.71 154.43 191.72 153.88 190.75 C 153.33 189.77 152.77 188.8 152.18 187.85 C 151.59 186.89 150.99 185.95 150.36 185.02 C 149.74 184.09 149.1 183.16 148.44 182.26 C 147.78 181.36 147.11 180.46 146.39 179.6 C 145.68 178.73 144.94 177.89 144.16 177.09 C 143.38 176.29 142.55 175.53 141.7 174.8 C 140.85 174.07 139.98 173.37 139.08 172.7 C 138.19 172.02 137.27 171.37 136.34 170.75 C 135.42 170.11 134.47 169.51 133.52 168.92 C 132.58 168.33 131.61 167.76 130.63 167.2 C 129.67 166.64 128.68 166.11 127.7 165.58 C 126.71 165.04 125.73 164.51 124.73 164 C 123.73 163.48 122.68 163.07 121.71 162.52 C 120.73 161.97 119.68 161.47 118.88 160.73 C 118.09 159.97 117.37 159.03 116.93 158.03 C 116.48 157.03 116.24 155.85 116.22 154.76 C 116.21 153.67 116.38 152.46 116.84 151.49 Z"/>
+      </g>
+    </svg>
+
+    <h1>vinogram</h1>
+    <p class="lead"
+       data-en="Open-source Telegram client for Android. Purple by default — everything else is the real Telegram you already know."
+       data-ru="Клиент Telegram для Android с открытым исходным кодом. Фиолетовый по умолчанию — всё остальное это тот самый Telegram, который вы уже знаете.">
+      Open-source Telegram client for Android. Purple by default — everything else is the real Telegram you already know.
+    </p>
+
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/fumaz0/vinogram-android/releases/latest">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span data-en="Download APK" data-ru="Скачать APK">Download APK</span>
+      </a>
+      <a class="btn" href="https://github.com/fumaz0/vinogram-android">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.9 18 5.2 18 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+        <span data-en="View source" data-ru="Исходный код">View source</span>
+      </a>
+    </div>
+
+    <p class="meta">v0.0.1 · arm64-v8a · Android 6.0+</p>
+  </section>
+
+  <section class="wrap" id="features">
+    <h2 data-en="Features" data-ru="Возможности">Features</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="dot"></span>
+        <h3 data-en="Real Telegram" data-ru="Настоящий Telegram">Real Telegram</h3>
+        <p data-en="Built on top of Telegram for Android 12.7.0. Chats, channels, secret chats, calls and files work through the regular Telegram servers."
+           data-ru="Основа — Telegram для Android 12.7.0. Чаты, каналы, секретные чаты, звонки и файлы работают через обычные серверы Telegram.">
+          Built on top of Telegram for Android 12.7.0. Chats, channels, secret chats, calls and files work through the regular Telegram servers.
+        </p>
+      </div>
+      <div class="card">
+        <span class="dot"></span>
+        <h3 data-en="Purple by default" data-ru="Фиолетовый по умолчанию">Purple by default</h3>
+        <p data-en="The whole accent palette is rebuilt around the vinogram violet — in both the light and the dark theme."
+           data-ru="Вся палитра акцентов пересобрана вокруг фиолетового vinogram — и в светлой, и в тёмной теме.">
+          The whole accent palette is rebuilt around the vinogram violet — in both the light and the dark theme.
+        </p>
+      </div>
+      <div class="card">
+        <span class="dot"></span>
+        <h3 data-en="New identity" data-ru="Свой брендинг">New identity</h3>
+        <p data-en="Launcher icons, splash screen, chat list wordmark and every in-app logo replaced with the vinogram mark."
+           data-ru="Иконки, сплэш, логотип в шапке чатов и все логотипы внутри приложения заменены на знак vinogram.">
+          Launcher icons, splash screen, chat list wordmark and every in-app logo replaced with the vinogram mark.
+        </p>
+      </div>
+      <div class="card">
+        <span class="dot"></span>
+        <h3 data-en="Open source" data-ru="Открытый код">Open source</h3>
+        <p data-en="The full source is on GitHub. Package names, protocol strings and URLs stay untouched, so nothing breaks."
+           data-ru="Весь код на GitHub. Имена пакетов, строки протокола и URL не тронуты, поэтому ничего не ломается.">
+          The full source is on GitHub. Package names, protocol strings and URLs stay untouched, so nothing breaks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="install">
+    <h2 data-en="Install" data-ru="Установка">Install</h2>
+    <ol class="steps">
+      <li data-en="Download <b>Vinogram-0.0.1-arm64-v8a.apk</b> from the latest release."
+          data-ru="Скачайте <b>Vinogram-0.0.1-arm64-v8a.apk</b> из последнего релиза.">
+        Download <b>Vinogram-0.0.1-arm64-v8a.apk</b> from the latest release.
+      </li>
+      <li data-en="Allow installing from unknown sources when Android asks."
+          data-ru="Разрешите установку из неизвестных источников, когда Android спросит.">
+        Allow installing from unknown sources when Android asks.
+      </li>
+      <li data-en="The build uses the beta package, so it installs next to the official Telegram."
+          data-ru="Сборка использует beta-пакет, поэтому ставится рядом с официальным Telegram.">
+        The build uses the beta package, so it installs next to the official Telegram.
+      </li>
+    </ol>
+  </section>
+
+  <section class="wrap" id="links">
+    <h2 data-en="Links" data-ru="Ссылки">Links</h2>
+    <div class="links">
+      <a class="link" href="https://t.me/vinogram_android">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#996cfa" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 17-7-3.5 16L9 15.5 6.5 19 5 13.5z"/><path d="M9 15.5 20 4"/></svg>
+        <span>
+          <span class="name" data-en="Channel" data-ru="Канал">Channel</span><br>
+          <span class="val">@vinogram_android</span>
+        </span>
+      </a>
+      <a class="link" href="https://github.com/fumaz0/vinogram-android">
+        <svg viewBox="0 0 24 24" fill="#996cfa"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.9 18 5.2 18 5.2c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+        <span>
+          <span class="name" data-en="Source code" data-ru="Исходный код">Source code</span><br>
+          <span class="val">github.com/fumaz0/vinogram-android</span>
+        </span>
+      </a>
+      <a class="link" href="https://translations.telegram.org">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#996cfa" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>
+        <span>
+          <span class="name" data-en="Translations" data-ru="Перевод">Translations</span><br>
+          <span class="val">translations.telegram.org</span>
+        </span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-en="vinogram is not affiliated with Telegram Messenger LLP. Telegram is a trademark of its respective owners."
+          data-ru="vinogram не связан с Telegram Messenger LLP. Telegram — торговая марка соответствующих правообладателей.">
+      vinogram is not affiliated with Telegram Messenger LLP. Telegram is a trademark of its respective owners.
+    </span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var buttons = { ru: 'EN', en: 'RU' };
+    var current = 'en';
+    var btn = document.getElementById('lang');
+    function apply(lang) {
+      current = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-' + lang + ']').forEach(function (el) {
+        var value = el.getAttribute('data-' + lang);
+        if (value !== null) {
+          if (value.indexOf('<') !== -1) { el.innerHTML = value; } else { el.textContent = value; }
+        }
+      });
+      btn.textContent = buttons[lang];
+      try { localStorage.setItem('vinogram-lang', lang); } catch (e) {}
+    }
+    btn.addEventListener('click', function () { apply(current === 'en' ? 'ru' : 'en'); });
+    var saved = null;
+    try { saved = localStorage.getItem('vinogram-lang'); } catch (e) {}
+    if (!saved) {
+      saved = (navigator.language || 'en').toLowerCase().indexOf('ru') === 0 ? 'ru' : 'en';
+    }
+    apply(saved);
+  })();
+</script>
+</body>
+</html>
