@@ -7,9 +7,15 @@ Rebranded fork of Telegram for Android (upstream: `drklo/telegram`).
 After **every** change: commit and push immediately to `origin`
 (https://github.com/fumaz0/vinogram-android). Do not leave work uncommitted.
 
+## Releases
+
+Publish a GitHub release (tag, notes, APK asset) **only** when the user
+explicitly asks for it. Otherwise stop after the commit/push and leave the
+APK for local testing.
+
 ## What was rebranded
 
-- App name: `R.string.AppName` / `R.string.AppNameBeta` -> "Vinogram".
+- App name: `R.string.AppName` / `R.string.AppNameBeta` -> "vinogram".
 - Default theme is purple: `Theme.java` ("Blue" theme accents) and
   `assets/bluebubbles.attheme` (recolored with the app's own accent algorithm).
 - Launcher icons: `mipmap-*/ic_launcher*.png`, `icon_foreground*.png`,
