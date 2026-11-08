@@ -186,6 +186,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private TextView titleView;
     private TextView subtitleView;
     private TextView versionView;
+    private BrandCell brandCell;
     public boolean hasMainTabs;
 
     private View navigationBar;
@@ -498,6 +499,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             openDebugMenu();
         });
 
+        brandCell = new BrandCell(context);
+        brandCell.setOnClickListener(v -> presentSettingFragment(new VinogramAboutActivity()));
+
         navigationBar = new View(context);
 //        fragmentView.addView(navigationBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 0, Gravity.BOTTOM | Gravity.FILL_HORIZONTAL));
 
@@ -643,6 +647,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         }
 
         items.add(UItem.asCustomShadow(topView, 200 - 12));
+        items.add(UItem.asShadow(null));
+        items.add(UItem.asCustom(brandCell, 68));
+        items.add(UItem.asShadow(null));
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -1164,6 +1171,50 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             return false;
         }
         return super.onBackPressed(invoked);
+    }
+
+    private class BrandCell extends LinearLayout {
+
+        private BrandCell(Context context) {
+            super(context);
+            setOrientation(HORIZONTAL);
+            setGravity(Gravity.CENTER_VERTICAL);
+            setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_settings_listSelector), Theme.RIPPLE_MASK_ALL));
+
+            final ImageView logoView = new ImageView(context);
+            logoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            logoView.setImageResource(R.drawable.vinogram_logo);
+            logoView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+
+            final TextView titleView = new TextView(context);
+            titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+            titleView.setTypeface(AndroidUtilities.bold());
+            titleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+            titleView.setText(LocaleController.getString(R.string.AppName));
+            titleView.setSingleLine(true);
+            titleView.setEllipsize(TextUtils.TruncateAt.END);
+
+            final TextView subtitleView = new TextView(context);
+            subtitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            subtitleView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
+            subtitleView.setText(VinogramAboutActivity.getVersionText());
+            subtitleView.setSingleLine(true);
+            subtitleView.setEllipsize(TextUtils.TruncateAt.END);
+
+            final LinearLayout textLayout = new LinearLayout(context);
+            textLayout.setOrientation(VERTICAL);
+            textLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            textLayout.addView(subtitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
+
+            if (LocaleController.isRTL) {
+                addView(textLayout, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1, Gravity.CENTER_VERTICAL, 16, 0, 8, 0));
+                addView(logoView, LayoutHelper.createLinear(44, 44, Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
+            } else {
+                addView(logoView, LayoutHelper.createLinear(44, 44, Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
+                addView(textLayout, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1, Gravity.CENTER_VERTICAL, 8, 0, 16, 0));
+            }
+            setContentDescription(LocaleController.getString(R.string.AppName) + ", " + VinogramAboutActivity.getVersionText());
+        }
     }
 
     public static class SettingCell extends LinearLayout implements Theme.Colorable {

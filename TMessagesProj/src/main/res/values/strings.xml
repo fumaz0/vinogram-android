@@ -11630,4 +11630,17 @@
     <string name="NoPaidMessagesTokenUsed">un1 used your QR code and can message you for free</string>
     <string name="NoPaidMessagesTokenUsedOut">You used the QR code of un1 and can message them for free</string>
     <string name="NoPaidMessagesTokenImported">You can now message **%1$s** for free.</string>
+    <string name="VinogramAbout">About</string>
+    <string name="VinogramAboutVersion">Version %1$s</string>
+    <string name="VinogramAboutDescription">Open-source Telegram client. Chats, channels, secret chats and files still work through the regular Telegram servers.</string>
+    <string name="VinogramAboutCategories">Categories</string>
+    <string name="VinogramAboutMain">General</string>
+    <string name="VinogramAboutAppearance">Appearance</string>
+    <string name="VinogramAboutOther">Other</string>
+    <string name="VinogramAboutLinks">Links</string>
+    <string name="VinogramAboutChannel">Channel</string>
+    <string name="VinogramAboutChannelValue">@vinogram_android</string>
+    <string name="VinogramAboutTranslation">Translation</string>
+    <string name="VinogramAboutSourceCode">Source code</string>
+    <string name="VinogramAboutFooter">vinogram is not affiliated with Telegram Messenger LLP. Telegram is a trademark of its respective owners.</string>
 </resources>

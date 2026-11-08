@@ -263,4 +263,17 @@
     <string name="RemindTodayAt">\'Отправить сегодня в\' HH:mm</string>
     <string name="RemindDayAt">\'Отправить\' d MMM \'в\' HH:mm</string>
     <string name="RemindDayYearAt">\'Напомнить\' d MMM yyyy \'в\' HH:mm</string>
+    <string name="VinogramAbout">О приложении</string>
+    <string name="VinogramAboutVersion">Версия %1$s</string>
+    <string name="VinogramAboutDescription">Клиент Telegram с открытым исходным кодом. Чаты, каналы, секретные чаты и файлы по-прежнему работают через обычные серверы Telegram.</string>
+    <string name="VinogramAboutCategories">Категории</string>
+    <string name="VinogramAboutMain">Основные</string>
+    <string name="VinogramAboutAppearance">Оформление</string>
+    <string name="VinogramAboutOther">Другое</string>
+    <string name="VinogramAboutLinks">Ссылки</string>
+    <string name="VinogramAboutChannel">Канал</string>
+    <string name="VinogramAboutChannelValue">@vinogram_android</string>
+    <string name="VinogramAboutTranslation">Перевод</string>
+    <string name="VinogramAboutSourceCode">Исходный код</string>
+    <string name="VinogramAboutFooter">vinogram не связан с Telegram Messenger LLP. Telegram — торговая марка соответствующих правообладателей.</string>
 </resources>
