@@ -31,6 +31,12 @@ type scale and components, light/dark toggle) plus a language toggle
 `localStorage`. The logo is the splash plane path inlined as SVG, so keep it
 in sync with `drawable/tg_splash_320.xml`.
 
+The page is responsive from 320px up: single-column cards, 48px touch targets
+under `(pointer: coarse)`, safe-area insets for notched phones, and stacked
+full-width hero buttons under 480px. Keep the `.grid` track as
+`minmax(min(296px, 100%), 1fr)` - a plain `296px` minimum overflows a 320px
+phone, because the gutters leave less than the track width.
+
 The Pages environment only allows branch `master`: if a deploy fails with
 "Branch ... is not allowed to deploy to github-pages", add the branch under
 repo Settings -> Environments -> github-pages -> Deployment branch policy.

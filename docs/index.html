@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>vinogram — Telegram client for Android</title>
 <meta name="description" content="vinogram is an open-source Telegram client for Android with a purple accent. Download the APK, read the source, join the channel.">
 <meta name="theme-color" content="#141218">
@@ -115,7 +115,7 @@
 
 /* ============ base ============ */
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--background);
@@ -134,7 +134,7 @@ img, svg { display: block; }
 /* typescale */
 .display-large {
   font-family: var(--font-display);
-  font-size: clamp(40px, 8vw, 57px); line-height: 1.12; letter-spacing: -.5px; font-weight: 400;
+  font-size: clamp(36px, 11vw, 57px); line-height: 1.12; letter-spacing: -.5px; font-weight: 400;
 }
 .headline-medium {
   font-family: var(--font-display);
@@ -161,6 +161,21 @@ img, svg { display: block; }
 section.wrap { padding-top: 48px; padding-bottom: 48px; }
 footer.wrap { padding-top: 28px; padding-bottom: 104px; }
 .hero.wrap { padding-top: 56px; padding-bottom: 24px; }
+/* Keep the gutters clear of notches and rounded corners in landscape. */
+@supports (padding: max(0px, env(safe-area-inset-left))) {
+  .wrap {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  @media (min-width: 840px) {
+    .wrap {
+      padding-left: max(24px, env(safe-area-inset-left));
+      padding-right: max(24px, env(safe-area-inset-right));
+    }
+  }
+  footer.wrap { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+  .fab { bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
 
 /* ============ top app bar ============ */
 .top-app-bar {
@@ -181,6 +196,8 @@ footer.wrap { padding-top: 28px; padding-bottom: 104px; }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border: 0; cursor: pointer; background: transparent;
   font-family: inherit; text-align: center; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition: box-shadow var(--dur-short) var(--ease-standard), transform var(--dur-short) var(--ease-standard);
 }
 .btn::after, .icon-btn::after, .list-item::after, .fab::after {
@@ -237,8 +254,10 @@ section { padding: 48px 0; }
 }
 h2 { margin: 0 0 22px; text-wrap: balance; }
 /* Three comfortable columns instead of four cramped ones: at 248px the
-   feature text broke into 6 ragged lines per card. */
-.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(296px, 1fr)); }
+   feature text broke into 6 ragged lines per card. The min() keeps the
+   single column from overflowing a 320px phone, where the gutters leave
+   less room than the 296px track. */
+.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(296px, 100%), 1fr)); }
 
 /* cards */
 .card {
@@ -263,10 +282,13 @@ h2 { margin: 0 0 22px; text-wrap: balance; }
   border-radius: var(--shape-lg); overflow: hidden;
   background: var(--surface-container-low);
   border: 1px solid var(--outline-variant);
+  list-style: none; margin: 0; padding: 0;
 }
 .list-item {
   position: relative; display: flex; align-items: center; gap: 16px;
   padding: 14px 18px; min-height: 64px; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 /* M3 list dividers are inset, not edge to edge: 1dp, aligned with the item
    padding so the rounded container keeps clean corners. */
@@ -310,6 +332,38 @@ footer p { margin: 0; color: var(--on-surface-variant); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition-duration: 1ms !important; }
+}
+
+/* ============ phone / touch ============ */
+/* Material touch targets are 48dp even when the visual control is 40dp, and
+   a 40px button is uncomfortably small under a finger. */
+@media (pointer: coarse) {
+  .btn { height: 48px; }
+  .btn.text { padding: 0 14px; }
+  .icon-btn { width: 48px; height: 48px; }
+  .list-item { min-height: 72px; }
+}
+
+@media (max-width: 600px) {
+  .hero.wrap { padding-top: 32px; padding-bottom: 16px; }
+  .hero .badge { width: 112px; height: 112px; }
+  .hero p.lead { margin-top: 16px; }
+  .hero .actions { margin-top: 24px; }
+  .chips { margin-top: 20px; }
+  section.wrap { padding-top: 36px; padding-bottom: 36px; }
+  .headline-medium { font-size: 24px; line-height: 32px; }
+  h2 { margin-bottom: 18px; }
+  .card { padding: 18px; }
+  .list-item { padding: 14px 16px; gap: 14px; }
+  .list-item + .list-item::before { left: 16px; right: 16px; }
+  footer.wrap { padding-top: 24px; }
+}
+
+/* One thumb, two stacked full-width actions reads better than two buttons
+   squeezed side by side. */
+@media (max-width: 480px) {
+  .hero .actions { flex-direction: column; align-items: stretch; }
+  .hero .actions .btn { width: 100%; }
 }
 </style>
 </head>
@@ -439,32 +493,32 @@ footer p { margin: 0; color: var(--on-surface-variant); }
   <section class="wrap" id="install">
     <span class="eyebrow" data-en="Install" data-ru="Установка">Install</span>
     <h2 class="headline-medium" data-en="Three steps" data-ru="Три шага">Three steps</h2>
-    <div class="list">
-      <div class="list-item" role="listitem">
-        <span class="lead">1</span>
+    <ol class="list">
+      <li class="list-item">
+        <span class="lead" aria-hidden="true">1</span>
         <span class="text">
           <span class="body-large" data-en="Download the APK" data-ru="Скачайте APK">Download the APK</span><br>
           <span class="support body-medium" data-en="Vinogram-0.0.1-arm64-v8a.apk from the latest release."
                 data-ru="Vinogram-0.0.1-arm64-v8a.apk из последнего релиза.">Vinogram-0.0.1-arm64-v8a.apk from the latest release.</span>
         </span>
-      </div>
-      <div class="list-item" role="listitem">
-        <span class="lead">2</span>
+      </li>
+      <li class="list-item">
+        <span class="lead" aria-hidden="true">2</span>
         <span class="text">
           <span class="body-large" data-en="Allow unknown sources" data-ru="Разрешите установку">Allow unknown sources</span><br>
           <span class="support body-medium" data-en="Android will ask for permission the first time."
                 data-ru="Android спросит разрешение при первой установке.">Android will ask for permission the first time.</span>
         </span>
-      </div>
-      <div class="list-item" role="listitem">
-        <span class="lead">3</span>
+      </li>
+      <li class="list-item">
+        <span class="lead" aria-hidden="true">3</span>
         <span class="text">
           <span class="body-large" data-en="Install next to Telegram" data-ru="Ставится рядом с Telegram">Install next to Telegram</span><br>
           <span class="support body-medium" data-en="The build uses the beta package, so the official app stays in place."
                 data-ru="Сборка использует beta-пакет, поэтому официальное приложение остаётся на месте.">The build uses the beta package, so the official app stays in place.</span>
         </span>
-      </div>
-    </div>
+      </li>
+    </ol>
   </section>
 
   <section class="wrap" id="links">
@@ -558,6 +612,10 @@ footer p { margin: 0; color: var(--on-surface-variant); }
         }
       });
       langBtn.textContent = labels[lang];
+      // The visible code must also appear in the accessible name, otherwise
+      // screen readers announce something the sighted label does not say.
+      langBtn.setAttribute('aria-label', labels[lang] + ' — ' +
+        (lang === 'ru' ? 'сменить язык' : 'switch language'));
       applyTheme(root.getAttribute('data-theme'));
       try { localStorage.setItem('vinogram-lang', lang); } catch (e) {}
     }
