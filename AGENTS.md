@@ -32,8 +32,11 @@ type scale and components, light/dark toggle) plus a language toggle
 in sync with `drawable/tg_splash_320.xml`.
 
 The page is responsive from 320px up: single-column cards, 48px touch targets
-under `(pointer: coarse)`, safe-area insets for notched phones, and stacked
-full-width hero buttons under 480px. Keep the `.grid` track as
+under `(pointer: coarse)`, safe-area insets for notched phones, and two hero
+buttons sharing one row (equal `flex: 1 1 132px` basis under 600px, so they
+only wrap below a ~304px container). Their phone padding is 10px rather than
+12px so the longest label (`Исходный код`) keeps a cushion inside
+`overflow: hidden` at 320px. Keep the `.grid` track as
 `minmax(min(296px, 100%), 1fr)` - a plain `296px` minimum overflows a 320px
 phone, because the gutters leave less than the track width.
 
