@@ -354,7 +354,12 @@ footer p { margin: 0; color: var(--on-surface-variant); }
   .hero.wrap { padding-top: 24px; padding-bottom: 12px; }
   .hero .badge { width: 96px; height: 96px; margin-bottom: 20px; }
   .hero p.lead { margin-top: 14px; }
-  .hero .actions { margin-top: 20px; gap: 8px; }
+  .hero .actions { margin-top: 20px; gap: 8px; flex-wrap: wrap; }
+  /* Two buttons share the row, as on the reference screenshot: equal basis,
+     each growing to half. The long RU label ("Исходный код") is the widest
+     case and fills a 320px row to within a pixel, so the padding is trimmed
+     here to leave a cushion instead of letting overflow:hidden clip it. */
+  .hero .actions .btn { flex: 1 1 132px; min-width: 0; padding: 0 10px; gap: 6px; }
   .chips { margin-top: 16px; }
   section.wrap { padding-top: 36px; padding-bottom: 36px; }
   .headline-medium { font-size: 24px; line-height: 32px; }
@@ -363,15 +368,6 @@ footer p { margin: 0; color: var(--on-surface-variant); }
   .list-item { padding: 14px 16px; gap: 14px; }
   .list-item + .list-item::before { left: 16px; right: 16px; }
   footer.wrap { padding-top: 24px; }
-}
-
-/* One thumb: a full-width brand button, and the source link demoted to a text
-   button - as an outlined box it was 328px of border around 14 characters, and
-   with the two stacked it pushed all content below the fold. */
-@media (max-width: 480px) {
-  .hero .actions { flex-direction: column; align-items: center; }
-  .hero .actions .btn.filled { width: 100%; }
-  .hero .actions .btn.outlined { border-color: transparent; }
 }
 </style>
 </head>
