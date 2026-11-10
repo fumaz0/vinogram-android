@@ -34,6 +34,12 @@
   --dur-short: 180ms;
   --dur-medium: 260ms;
 
+  /* brand accent: the app's own purple. The baseline M3 primary (#CFBCFF in
+     dark) renders a pastel block with dark navy text that reads as disabled,
+     so the primary action uses the brand colour with white text (5.5:1). */
+  --brand: #793DF7;
+  --on-brand: #FFFFFF;
+
   /* typescale */
   --font: "Google Sans", "Google Sans Text", Roboto, "Roboto Flex", system-ui,
           -apple-system, "Segoe UI", Arial, sans-serif;
@@ -212,7 +218,7 @@ footer.wrap { padding-top: 28px; padding-bottom: 104px; }
   height: 40px; padding: 0 24px; border-radius: var(--shape-full);
   font-size: 14px; line-height: 20px; letter-spacing: .1px; font-weight: 500;
 }
-.btn.filled { background: var(--primary); color: var(--on-primary); }
+.btn.filled { background: var(--brand); color: var(--on-brand); }
 .btn.tonal { background: var(--secondary-container); color: var(--on-secondary-container); }
 .btn.outlined { border: 1px solid var(--outline); color: var(--primary); }
 .btn.text { padding: 0 12px; color: var(--primary); }
@@ -345,11 +351,11 @@ footer p { margin: 0; color: var(--on-surface-variant); }
 }
 
 @media (max-width: 600px) {
-  .hero.wrap { padding-top: 32px; padding-bottom: 16px; }
-  .hero .badge { width: 112px; height: 112px; }
-  .hero p.lead { margin-top: 16px; }
-  .hero .actions { margin-top: 24px; }
-  .chips { margin-top: 20px; }
+  .hero.wrap { padding-top: 24px; padding-bottom: 12px; }
+  .hero .badge { width: 96px; height: 96px; margin-bottom: 20px; }
+  .hero p.lead { margin-top: 14px; }
+  .hero .actions { margin-top: 20px; gap: 8px; }
+  .chips { margin-top: 16px; }
   section.wrap { padding-top: 36px; padding-bottom: 36px; }
   .headline-medium { font-size: 24px; line-height: 32px; }
   h2 { margin-bottom: 18px; }
@@ -359,11 +365,13 @@ footer p { margin: 0; color: var(--on-surface-variant); }
   footer.wrap { padding-top: 24px; }
 }
 
-/* One thumb, two stacked full-width actions reads better than two buttons
-   squeezed side by side. */
+/* One thumb: a full-width brand button, and the source link demoted to a text
+   button - as an outlined box it was 328px of border around 14 characters, and
+   with the two stacked it pushed all content below the fold. */
 @media (max-width: 480px) {
-  .hero .actions { flex-direction: column; align-items: stretch; }
-  .hero .actions .btn { width: 100%; }
+  .hero .actions { flex-direction: column; align-items: center; }
+  .hero .actions .btn.filled { width: 100%; }
+  .hero .actions .btn.outlined { border-color: transparent; }
 }
 </style>
 </head>
@@ -417,9 +425,9 @@ footer p { margin: 0; color: var(--on-surface-variant); }
 
     <h1 class="display-large">vinogram</h1>
     <p class="lead body-large"
-       data-en="Open-source Telegram client for Android. Purple by default — everything else is the real Telegram you already know."
-       data-ru="Клиент Telegram для Android с открытым исходным кодом. Фиолетовый по умолчанию — всё остальное это тот самый Telegram, который вы уже знаете.">
-      Open-source Telegram client for Android. Purple by default — everything else is the real Telegram you already know.
+       data-en="Open-source Telegram client for Android. Purple by default — the rest is the Telegram you know."
+       data-ru="Открытый клиент Telegram для Android. Фиолетовый по умолчанию — всё остальное знакомый Telegram.">
+      Open-source Telegram client for Android. Purple by default — the rest is the Telegram you know.
     </p>
 
     <div class="actions">
