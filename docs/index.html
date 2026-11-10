@@ -155,6 +155,12 @@ img, svg { display: block; }
 
 .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 @media (min-width: 840px) { .wrap { padding: 0 24px; } }
+/* .wrap is a class, so its padding shorthand beats the "section" and "footer"
+   element rules below and zeroes the vertical rhythm. These qualified
+   selectors put the vertical padding back without touching the gutters. */
+section.wrap { padding-top: 48px; padding-bottom: 48px; }
+footer.wrap { padding-top: 28px; padding-bottom: 104px; }
+.hero.wrap { padding-top: 56px; padding-bottom: 24px; }
 
 /* ============ top app bar ============ */
 .top-app-bar {
@@ -223,7 +229,7 @@ img, svg { display: block; }
 .chip svg { width: 16px; height: 16px; }
 
 /* ============ sections ============ */
-section { padding: 52px 0; }
+section { padding: 48px 0; }
 .eyebrow {
   display: block; color: var(--primary);
   font-size: 12px; line-height: 16px; letter-spacing: .5px; font-weight: 500;
@@ -262,7 +268,12 @@ h2 { margin: 0 0 22px; text-wrap: balance; }
   position: relative; display: flex; align-items: center; gap: 16px;
   padding: 14px 18px; min-height: 64px; cursor: pointer;
 }
-.list-item + .list-item { border-top: 1px solid var(--outline-variant); }
+/* M3 list dividers are inset, not edge to edge: 1dp, aligned with the item
+   padding so the rounded container keeps clean corners. */
+.list-item + .list-item::before {
+  content: ""; position: absolute; top: 0; left: 18px; right: 18px; height: 1px;
+  background: var(--outline-variant);
+}
 .list-item .lead {
   flex: 0 0 auto; width: 40px; height: 40px; border-radius: var(--shape-full);
   display: flex; align-items: center; justify-content: center;
