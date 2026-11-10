@@ -276,4 +276,24 @@
     <string name="VinogramAboutTranslation">Перевод</string>
     <string name="VinogramAboutSourceCode">Исходный код</string>
     <string name="VinogramAboutFooter">vinogram не связан с Telegram Messenger LLP. Telegram — торговая марка соответствующих правообладателей.</string>
+    <string name="VinogramMod">Функции мода</string>
+    <string name="VinogramModInfo">Режим призрака и другие дополнения, которые vinogram добавляет к Telegram.</string>
+    <string name="VinogramModOn">включено</string>
+    <string name="VinogramModOff">выключено</string>
+    <string name="VinogramModGhost">Режим призрака</string>
+    <string name="VinogramModGhostOnline">Скрывать статус «в сети»</string>
+    <string name="VinogramModGhostTyping">Скрывать «печатает»</string>
+    <string name="VinogramModGhostRead">Скрывать прочтение</string>
+    <string name="VinogramModGhostInfo">Режим призрака оставляет выбранную активность только на этом устройстве. Telegram не узнает, что вы в сети, печатаете или прочитали сообщение, поэтому собеседники видят прежнее состояние. Работает для всех аккаунтов и никем не отключается.</string>
+    <string name="VinogramModMessages">Сообщения</string>
+    <string name="VinogramModDeleted">Просмотр удалённых сообщений</string>
+    <string name="VinogramModDeletedArchive">Архив удалённых сообщений</string>
+    <string name="VinogramModDeletedInfo">Сохраняет локальную копию сообщений, которые удаляет собеседник, поэтому их можно прочитать позже. Хранятся только текст и детали вроде отправителя и времени, и только последние 300 сообщений, медиафайлы не сохраняются.</string>
+    <string name="VinogramModDeletedEmpty">Пока пусто. Удалённые собеседником сообщения появятся здесь, как только исчезнут из чата.</string>
+    <string name="VinogramModDeletedMedia">Медиа или файл, который не сохраняется в архиве</string>
+    <string name="VinogramModDeletedOutgoing">удалено вами</string>
+    <string name="VinogramModDeletedUnknownChat">Неизвестный чат</string>
+    <string name="VinogramModDownloads">Скачивание</string>
+    <string name="VinogramModUnlimited">Скачивание без ограничений</string>
+    <string name="VinogramModUnlimitedInfo">Скачивает фото, видео, музыку и файлы любого размера в любой сети, включая мобильную и роуминг, не спрашивая. Заменяет настройки автозагрузки и может израсходовать много трафика.</string>
 </resources>

@@ -261,6 +261,8 @@ public class ApplicationLoader extends Application {
             }
         }
 
+        VinogramMod.loadConfig();
+
         ApplicationLoader app = (ApplicationLoader) ApplicationLoader.applicationContext;
         app.initPushServices();
         if (BuildVars.LOGS_ENABLED) {

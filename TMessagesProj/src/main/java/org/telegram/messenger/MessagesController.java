@@ -10516,7 +10516,7 @@ public class MessagesController extends BaseController implements NotificationCe
         checkReadTasks();
 
         if (getUserConfig().isClientActivated()) {
-            if (!ignoreSetOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue) {
+            if (!ignoreSetOnline && !VinogramMod.ghostHideOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue) {
                 if (ApplicationLoader.mainInterfacePausedStageQueueTime != 0 && Math.abs(ApplicationLoader.mainInterfacePausedStageQueueTime - System.currentTimeMillis()) > 1000) {
                     if (statusSettingState != 1 && (lastStatusUpdateTime == 0 || Math.abs(System.currentTimeMillis() - lastStatusUpdateTime) >= 55000 || offlineSent)) {
                         statusSettingState = 1;
@@ -11376,6 +11376,10 @@ public class MessagesController extends BaseController implements NotificationCe
 
     public boolean sendTyping(long dialogId, long threadMsgId, int action, String emojicon, int classGuid) {
         if (action < 0 || action >= sendingTypings.length || dialogId == 0) {
+            return false;
+        }
+        if (VinogramMod.ghostHideTyping) {
+            // Ghost mode: report nothing, not even the "cancel" action.
             return false;
         }
         final long selfId = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
@@ -14552,7 +14556,56 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
+    /**
+     * vinogram: copies messages that are about to disappear into the local
+     * archive, so "view deleted messages" can show them later. The server has
+     * already forgotten them at this point, so only what is still loaded here
+     * is kept: the text (or the kind of media), the sender and the date.
+     */
+    private void archiveDeletedMessages(ArrayList<Integer> ids) {
+        if (!VinogramMod.keepDeletedMessages || ids == null || ids.isEmpty()) {
+            return;
+        }
+        final ArrayList<VinogramDeletedArchive.Entry> entries = new ArrayList<>();
+        for (int a = 0, size = ids.size(); a < size; a++) {
+            final MessageObject object = dialogMessagesByIds.get(ids.get(a));
+            if (object == null || object.messageOwner == null) {
+                continue;
+            }
+            final VinogramDeletedArchive.Entry entry = new VinogramDeletedArchive.Entry();
+            entry.dialogId = object.getDialogId();
+            entry.messageId = object.getId();
+            entry.date = object.messageOwner.date;
+            entry.out = object.isOutOwner();
+            final TLRPC.MessageMedia media = MessageObject.getMedia(object.messageOwner);
+            final String text = object.messageOwner.message;
+            entry.text = text == null ? "" : text;
+            entry.media = media != null && !(media instanceof TLRPC.TL_messageMediaEmpty);
+            if (object.messageOwner.from_id != null) {
+                if (object.messageOwner.from_id.user_id != 0) {
+                    final TLRPC.User user = getUser(object.messageOwner.from_id.user_id);
+                    if (user != null) {
+                        entry.fromName = UserObject.getUserName(user);
+                    }
+                } else if (object.messageOwner.from_id.channel_id != 0) {
+                    final TLRPC.Chat chat = getChat(object.messageOwner.from_id.channel_id);
+                    if (chat != null) {
+                        entry.fromName = chat.title;
+                    }
+                }
+            }
+            entries.add(entry);
+        }
+        if (!entries.isEmpty()) {
+            VinogramDeletedArchive.add(entries);
+        }
+    }
+
     private void completeReadTask(ReadTask task) {
+        if (VinogramMod.ghostHideRead) {
+            // Ghost mode: keep the read state local, tell the server nothing.
+            return;
+        }
         if (task.replyId != 0 && task.monoForumPeerId == 0) {
             TLRPC.TL_messages_readDiscussion req = new TLRPC.TL_messages_readDiscussion();
             req.msg_id = (int) task.replyId;
@@ -14659,6 +14712,9 @@ public class MessagesController extends BaseController implements NotificationCe
             return;
         }
         getMessagesStorage().resetMentionsCount(dialogId, topicId, 0);
+        if (VinogramMod.ghostHideRead) {
+            return;
+        }
         TLRPC.TL_messages_readMentions req = new TLRPC.TL_messages_readMentions();
         req.peer = getInputPeer(dialogId);
         if (topicId != 0) {
@@ -21151,6 +21207,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (arrayList == null) {
                         continue;
                     }
+                    archiveDeletedMessages(arrayList);
                     getNotificationCenter().postNotificationName(NotificationCenter.messagesDeleted, arrayList, -dialogId, false);
                     if (dialogId == 0) {
                         for (int b = 0, size2 = arrayList.size(); b < size2; b++) {
@@ -21631,9 +21688,11 @@ public class MessagesController extends BaseController implements NotificationCe
                 req.flags |= 1;
             }
         }
-        getConnectionsManager().sendRequest(req, (response, error) -> {
+        if (!VinogramMod.ghostHideRead) {
+            getConnectionsManager().sendRequest(req, (response, error) -> {
 
-        });
+            });
+        }
         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, UPDATE_MASK_REACTIONS_READ);
     }
 
@@ -21662,7 +21721,9 @@ public class MessagesController extends BaseController implements NotificationCe
                 req.flags |= 1;
             }
         }
-        getConnectionsManager().sendRequest(req, (response, error) -> {});
+        if (!VinogramMod.ghostHideRead) {
+            getConnectionsManager().sendRequest(req, (response, error) -> {});
+        }
         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, UPDATE_MASK_REACTIONS_READ);
     }
 

@@ -21,6 +21,30 @@ APK for local testing.
 - Launcher icons: `mipmap-*/ic_launcher*.png`, `icon_foreground*.png`,
   monochrome `drawable-nodpi/vinogram_icon_mono.png`.
 
+## Mod features
+
+Extras that upstream Telegram does not have. All are off by default and are
+grouped under **Settings -> Mod features** (row id 30 ->
+`VinogramModActivity`). The switches are mirrored into static fields in
+`VinogramMod` (loaded once from `ApplicationLoader.onCreate`), because they are
+read from hot paths where loading `SharedPreferences` would be wasteful.
+
+- **Ghost mode** suppresses outbound requests instead of faking state, so the
+  server is never told: `sendTyping` returns early (`ghostHideTyping`), the
+  `updateTimerProc` online update is skipped (`ghostHideOnline`), and read
+  receipts (`completeReadTask`, mentions, reactions, poll votes) are dropped
+  (`ghostHideRead`). The read state still advances locally.
+- **View deleted messages** keeps a capped local archive. The deletion path in
+  `MessagesController` (`archiveDeletedMessages`, called before
+  `NotificationCenter.messagesDeleted`) copies text/metadata into
+  `VinogramDeletedArchive` (one pref, 300 entries, 500 chars, no media files);
+  `VinogramDeletedActivity` lists them and opens the chat on tap. Deletions in
+  private chats carry no peer, so the dialog is resolved through
+  `MessageObject.getDialogId()`.
+- **Unlimited downloads** short-circuits the auto-download decision helpers in
+  `DownloadController` (`canDownloadMediaInternal` x2, `canDownloadMedia` ->
+  `true`, `canDownloadMedia(int,long)` -> `true`): any size, any network.
+
 ## Website
 
 `docs/` is the landing page, published by `.github/workflows/pages.yml` to

@@ -650,6 +650,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         items.add(UItem.asShadow(null));
         items.add(UItem.asCustom(brandCell, 68));
         items.add(UItem.asShadow(null));
+        items.add(SettingCell.Factory.of(30, IconBackgroundColors.PURPLE.top, IconBackgroundColors.PURPLE.bottom, R.drawable.settings_features, getString(R.string.VinogramMod), getString(R.string.VinogramModInfo)));
+        items.add(UItem.asShadow(null));
 
         accountNumbers.clear();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
@@ -883,6 +885,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 break;
             case 25:
                 presentSettingFragment(new WalletActivity());
+                break;
+            case 30:
+                presentSettingFragment(new VinogramModActivity());
                 break;
             case 15:
                 presentSettingFragment(new PremiumPreviewFragment(PremiumPreviewFragment.FEATURES_BUSINESS, "settings"));

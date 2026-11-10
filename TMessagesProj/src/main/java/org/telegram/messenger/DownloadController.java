@@ -625,6 +625,9 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public boolean canDownloadMedia(int type, long size) {
+        if (VinogramMod.unlimitedDownloads) {
+            return true;
+        }
         Preset preset;
         int networkType = ApplicationLoader.getAutodownloadNetworkType();
         if (networkType == StatsController.TYPE_WIFI) {
@@ -687,6 +690,9 @@ public class DownloadController extends BaseController implements NotificationCe
 
     private int canDownloadMediaInternal(MessageObject message) {
         if (message == null || message.messageOwner == null) return 0;
+        if (VinogramMod.unlimitedDownloads) {
+            return 1;
+        }
         if (message.messageOwner.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }
@@ -777,6 +783,9 @@ public class DownloadController extends BaseController implements NotificationCe
 
     private int canDownloadMediaInternal(MessageObject message, long overrideSize) {
         if (message == null || message.messageOwner == null) return 0;
+        if (VinogramMod.unlimitedDownloads) {
+            return 1;
+        }
         if (message.messageOwner.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }
@@ -859,6 +868,9 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public int canDownloadMedia(TLRPC.Message message) {
+        if (VinogramMod.unlimitedDownloads) {
+            return 1;
+        }
         if (message == null || message.media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }
@@ -940,6 +952,9 @@ public class DownloadController extends BaseController implements NotificationCe
     }
 
     public int canDownloadMedia(TLRPC.Message message, TLRPC.MessageMedia media) {
+        if (VinogramMod.unlimitedDownloads) {
+            return 1;
+        }
         if (message == null || media instanceof TLRPC.TL_messageMediaStory) {
             return canPreloadStories() ? 2 : 0;
         }

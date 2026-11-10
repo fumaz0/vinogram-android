@@ -259,6 +259,9 @@ section { padding: 48px 0; }
   margin-bottom: 6px;
 }
 h2 { margin: 0 0 22px; text-wrap: balance; }
+/* Short lead under a section heading; narrower than the grid so the line
+   lengths stay readable. */
+.section-intro { margin: -6px 0 24px; max-width: 68ch; color: var(--on-surface-variant); }
 /* Three comfortable columns instead of four cramped ones: at 248px the
    feature text broke into 6 ragged lines per card. The min() keeps the
    single column from overflowing a 320px phone, where the gutters leave
@@ -392,6 +395,7 @@ footer p { margin: 0; color: var(--on-surface-variant); }
     </a>
     <nav>
       <a class="btn text nav-link" href="#features" data-en="Features" data-ru="Возможности">Features</a>
+      <a class="btn text nav-link" href="#mod" data-en="Mod features" data-ru="Функции мода">Mod features</a>
       <a class="btn text nav-link" href="#install" data-en="Install" data-ru="Установка">Install</a>
       <a class="btn text nav-link" href="#links" data-en="Links" data-ru="Ссылки">Links</a>
       <a class="btn text nav-link" href="https://github.com/fumaz0/vinogram-android">GitHub</a>
@@ -489,6 +493,48 @@ footer p { margin: 0; color: var(--on-surface-variant); }
         <p data-en="The full source is on GitHub. Package names, protocol strings and URLs stay untouched, so nothing breaks."
            data-ru="Весь код на GitHub. Имена пакетов, строки протокола и URL не тронуты, поэтому ничего не ломается.">
           The full source is on GitHub. Package names, protocol strings and URLs stay untouched, so nothing breaks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="mod">
+    <span class="eyebrow" data-en="Mod features" data-ru="Функции мода">Mod features</span>
+    <h2 class="headline-medium" data-en="Extras Telegram does not have" data-ru="Дополнения, которых нет в Telegram">Extras Telegram does not have</h2>
+    <p class="section-intro body-large"
+       data-en="Optional features built into vinogram. They are off by default and live under Settings, Mod features."
+       data-ru="Необязательные функции, встроенные в vinogram. Выключены по умолчанию и находятся в Настройки, Функции мода.">
+      Optional features built into vinogram. They are off by default and live under Settings, Mod features.
+    </p>
+    <div class="grid">
+      <div class="card">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.5 4.5h15A1.5 1.5 0 0 1 21 6v3H3V6a1.5 1.5 0 0 1 1.5-1.5z"/><path d="M4 10.5h16V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9.5 13h5v2h-5z" fill="var(--primary-container)"/></svg>
+        </span>
+        <h3 data-en="View deleted messages" data-ru="Просмотр удалённых сообщений">View deleted messages</h3>
+        <p data-en="Keeps the messages the other side deletes, with the sender and the time, so you can still read them later. Text only, the last 300."
+           data-ru="Сохраняет удалённые собеседником сообщения — с отправителем и временем — чтобы их можно было прочитать позже. Только текст, последние 300.">
+          Keeps the messages the other side deletes, with the sender and the time, so you can still read them later. Text only, the last 300.
+        </p>
+      </div>
+      <div class="card">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5A6.5 6.5 0 0 0 5.5 9v12.5l3-2.4 1.75 1.6L12 19l1.75 1.7 1.75-1.6 3 2.4V9A6.5 6.5 0 0 0 12 2.5z"/><circle cx="9.6" cy="10" r="1.3" fill="var(--primary-container)"/><circle cx="14.4" cy="10" r="1.3" fill="var(--primary-container)"/></svg>
+        </span>
+        <h3 data-en="Ghost mode" data-ru="Режим призрака">Ghost mode</h3>
+        <p data-en="Hides your online status, the typing indicator and read receipts. Telegram is never told, so the other side keeps seeing the previous state."
+           data-ru="Скрывает статус «в сети», «печатает» и прочтение. Telegram об этом не узнаёт, поэтому собеседники видят прежнее состояние.">
+          Hides your online status, the typing indicator and read receipts. Telegram is never told, so the other side keeps seeing the previous state.
+        </p>
+      </div>
+      <div class="card">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11 3h2v9.2l3.1-3.1 1.4 1.4L12 16l-5.5-5.5 1.4-1.4L11 12.2z"/><path d="M4 17h16v2.5H4z"/></svg>
+        </span>
+        <h3 data-en="Unlimited downloads" data-ru="Скачивание без ограничений">Unlimited downloads</h3>
+        <p data-en="Downloads photos, videos and files of any size on any network, mobile data and roaming included, without asking."
+           data-ru="Скачивает фото, видео и файлы любого размера в любой сети, включая мобильную и роуминг, не спрашивая.">
+          Downloads photos, videos and files of any size on any network, mobile data and roaming included, without asking.
         </p>
       </div>
     </div>

@@ -11643,4 +11643,24 @@
     <string name="VinogramAboutTranslation">Translation</string>
     <string name="VinogramAboutSourceCode">Source code</string>
     <string name="VinogramAboutFooter">vinogram is not affiliated with Telegram Messenger LLP. Telegram is a trademark of its respective owners.</string>
+    <string name="VinogramMod">Mod features</string>
+    <string name="VinogramModInfo">Ghost mode and the extras vinogram adds on top of Telegram.</string>
+    <string name="VinogramModOn">on</string>
+    <string name="VinogramModOff">off</string>
+    <string name="VinogramModGhost">Ghost mode</string>
+    <string name="VinogramModGhostOnline">Hide online status</string>
+    <string name="VinogramModGhostTyping">Hide typing</string>
+    <string name="VinogramModGhostRead">Hide read receipts</string>
+    <string name="VinogramModGhostInfo">Ghost mode keeps the selected activity on this device only. Telegram will not be told that you are online, typing or have read a message, so others still see the previous state. It applies to all accounts and cannot be seen by anyone else.</string>
+    <string name="VinogramModMessages">Messages</string>
+    <string name="VinogramModDeleted">View deleted messages</string>
+    <string name="VinogramModDeletedArchive">Deleted messages archive</string>
+    <string name="VinogramModDeletedInfo">Keeps a local copy of the messages the other side deletes, so you can still read them. Only text and details such as the sender and the time are kept, and only the last 300 messages, cached media is not saved.</string>
+    <string name="VinogramModDeletedEmpty">Nothing here yet. Messages deleted by the other side will show up once they are removed from a chat.</string>
+    <string name="VinogramModDeletedMedia">Media or a file that is not kept in the archive</string>
+    <string name="VinogramModDeletedOutgoing">deleted by you</string>
+    <string name="VinogramModDeletedUnknownChat">Unknown chat</string>
+    <string name="VinogramModDownloads">Downloads</string>
+    <string name="VinogramModUnlimited">Unlimited downloads</string>
+    <string name="VinogramModUnlimitedInfo">Downloads photos, videos, music and files of any size on any network, including mobile data and roaming, without asking. It overrides the auto-download settings and can use a lot of traffic.</string>
 </resources>
